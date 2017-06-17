@@ -25,8 +25,20 @@ CREATE TABLE db_onlineTest.test(
 
 DROP TABLE IF EXISTS db_onlineTest.student_test;
 CREATE TABLE db_onlineTest.student_test(
-  id INT AUTO_INCREMENT PRIMARY KEY COMMENT '',
-  studentId INT COMMENT '',
-  testId INT COMMENT '',
-  
-)
+  id INT AUTO_INCREMENT PRIMARY KEY COMMENT 'ID PK',
+  studentId INT COMMENT '学生ID ',
+  testId INT COMMENT '试题ID',
+  score INT COMMENT '分数'
+)COMMENT '学生试题关联表';
+
+ALTER TABLE db_onlineTest.student_test
+    ADD CONSTRAINT
+student_test_fk_studentId
+FOREIGN KEY (studentId)
+  REFERENCES db_onlineTest.student(id);
+
+ALTER TABLE db_onlineTest.student_test
+    ADD CONSTRAINT
+student_test_fk_testId
+FOREIGN KEY (testId)
+  REFERENCES db_onlineTest.test(id);
