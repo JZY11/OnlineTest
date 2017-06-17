@@ -11,7 +11,7 @@
     <title>首页</title>
 </head>
 <body>
-<form action="user" method="post">
+<form action="student" method="post">
     <input type="hidden" name="action" value="login">
     <input type="text" name="username" placeholder="用户名"><br>
     <input type="password" name="password" placeholder="密码"><br>

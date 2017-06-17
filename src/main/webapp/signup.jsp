@@ -12,10 +12,9 @@
 </head>
 <body>
 <h1>注册</h1>
-<form action="user" method="post">
+<form action="student" method="post">
     <input type="hidden" name="action" value="register">
     <input type="text" name="username" placeholder="用户名"><br>
-    <input type="text" name="mobile" placeholder="手机号"><br>
     <input type="text" name="password" placeholder="密码"><br>
     <input type="submit" value="注册">
 </form>
