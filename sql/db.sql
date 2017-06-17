@@ -42,3 +42,7 @@ ALTER TABLE db_onlineTest.student_test
 student_test_fk_testId
 FOREIGN KEY (testId)
   REFERENCES db_onlineTest.test(id);
+
+INSERT INTO db_onlineTest.paper VALUE (NULL ,'JavaEE');
+
+INSERT INTO db_onlineTest.test VALUE (NULL ,'判断题','对',80,1);
