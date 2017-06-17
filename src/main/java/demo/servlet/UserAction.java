@@ -48,6 +48,19 @@ public class UserAction extends HttpServlet {
                 Error.showErrorMessage(req, resp);
                 return;
             }
+            preparedStatement.setString(1, username);
+            resultSet = preparedStatement.executeQuery();
+            boolean isUsernameExit = resultSet.next();
+
+            if (isUsernameExit){
+                req.setAttribute("message","用户名已存在，请更换");
+            }else {
+                String sql = "INSERT INTO db_onlineTest.user VALUE (NULL ,?,password)";
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, username);
+                preparedStatement.executeUpdate();
+                resp.sendRedirect("default.jsp");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
