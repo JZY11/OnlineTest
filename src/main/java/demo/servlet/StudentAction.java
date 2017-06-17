@@ -19,12 +19,17 @@ import java.sql.SQLException;
  * OnlineTest.
  */
 @WebServlet(urlPatterns = "/student")
-public class UserAction extends HttpServlet {
+public class StudentAction extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         if ("register".equals(action)) {
             register(req,resp);
+            return;
+        }
+
+        if ("login".equals(action)) {
+            login(req,resp);
             return;
         }
 
@@ -61,6 +66,38 @@ public class UserAction extends HttpServlet {
                 preparedStatement.executeUpdate();
                 resp.sendRedirect("default.jsp");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String username = req.getParameter("username").trim();
+        String password = req.getParameter("password");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        String usernameSql = "SELECT * FROM db_onlineTest.user WHERE username = ? AND password = ?";
+        try {
+            if (connection != null) {
+                preparedStatement = connection.prepareStatement(usernameSql);
+            }else {
+                Error.showErrorMessage(req, resp);
+                return;
+            }
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                req.getSession().setAttribute("username", resultSet.getString("username"));
+                resp.sendRedirect("index.jsp");
+            }else {
+                req.setAttribute("message", "手机号或密码错误");
+                req.getRequestDispatcher("default.jsp").forward(req, resp);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
